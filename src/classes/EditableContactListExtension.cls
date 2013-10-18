@@ -39,13 +39,13 @@ public with sharing class EditableContactListExtension extends EditableList
     return castList(childList);
   }
 
-  public override void addToList()
+  public override sObject initChildRecord()
   {
     Contact child = new Contact();
     // Can either use mysObject or acct here
     child.AccountId = mysObject.Id;
     
-    childList.add(child);
+    return child;
   }
 
   public override List<sObject> castList(List<sObject> myList)

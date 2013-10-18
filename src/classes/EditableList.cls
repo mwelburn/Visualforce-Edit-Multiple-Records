@@ -9,6 +9,17 @@ public abstract with sharing class EditableList
   public String removeIndex {get; set;}
   @TestVisible protected List<sObject> removeChildList {get;set;} 
 
+  public EditableList()
+  {
+    this.ZERO = 0;
+    this.removeChildList = new List<sObject>();
+
+    // Implementing class should can initialize this to retrieve existing
+    // child records, OR this can be treated as a page where only new
+    // items are added. If that is the case, then leave this as is.
+    this.childList = new List<sObject>();
+  }
+
   /*
    * Need to implement the following when implementing constructor:
    *
@@ -18,15 +29,9 @@ public abstract with sharing class EditableList
    */
 	public EditableList(ApexPages.StandardController stdController) 
   {
+    this();
+
     this.mysObject = (sObject)stdController.getRecord();
-
-    this.ZERO = 0;
-    this.removeChildList = new List<sObject>();
-
-    // Implementing class should can initialize this to retrieve existing
-    // child records, OR this can be treated as a page where only new
-    // items are added. If that is the case, then leave this as is.
-    this.childList = new List<sObject>();
   }
 
   public virtual Boolean getHasChildren()
@@ -40,12 +45,21 @@ public abstract with sharing class EditableList
    *  - Initialize child record
    *  - Set any default values
    *  - Set relationship with parent
-   *  - Add child record to childList List<sObject>
-   *  - Return null
    */
-  public abstract void addToList();
+  public virtual sObject initChildRecord()
+  {
+    // Cannot instantiate a generic sObject, must choose an actual object
+    // Since this class needs to be overridden, this is a placeholder
+    // implementation.
+    return new Account();
+  }
 
-  public virtual PageReference removeFromList()
+  public virtual void addToList()
+  {
+    childList.add(initChildRecord());
+  }
+
+  public virtual void removeFromList()
   {
     try
     {
@@ -67,8 +81,6 @@ public abstract with sharing class EditableList
     {
       ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, e.getMessage()));
     }
-    
-    return null;
   }
 
   public virtual PageReference save()
