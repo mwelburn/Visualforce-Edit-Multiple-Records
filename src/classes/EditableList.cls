@@ -34,7 +34,7 @@ public abstract with sharing class EditableList
     this.mysObject = (sObject)stdController.getRecord();
   }
 
-  public virtual Boolean getHasChildren()
+  public Boolean getHasChildren()
   {
     return !childList.isEmpty();
   }
@@ -54,12 +54,12 @@ public abstract with sharing class EditableList
     return new Account();
   }
 
-  public virtual void addToList()
+  public void addToList()
   {
     childList.add(initChildRecord());
   }
 
-  public virtual void removeFromList()
+  public void removeFromList()
   {
     try
     {
@@ -83,7 +83,21 @@ public abstract with sharing class EditableList
     }
   }
 
-  public virtual PageReference save()
+  public virtual PageReference getSuccessURL()
+  {
+    String retURL = ApexPages.currentPage().getParameters().get('retURL');
+    // If retURL doesn't exist, simply return to parent record
+    if (String.isBlank(retURL))
+    {
+      retURL = '/' + mysObject.Id;
+    }
+    
+    PageReference pr = new PageReference(retURL);
+    pr.setRedirect(true);
+    return pr;
+  }
+
+  public PageReference save()
   {
     Savepoint sp = Database.setSavepoint();
             
@@ -92,16 +106,7 @@ public abstract with sharing class EditableList
       upsert castList(childList);
       delete castList(removeChildList);
       
-      String retURL = ApexPages.currentPage().getParameters().get('retURL');
-      // If retURL doesn't exist, simply return to parent record
-      if (String.isBlank(retURL))
-      {
-        retURL = '/' + mysObject.Id;
-      }
-      
-      PageReference pr = new PageReference(retURL);
-      pr.setRedirect(true);
-      return pr;
+      return getSuccessURL();
     }
     catch(Exception e)
     {
