@@ -1,0 +1,54 @@
+<apex:page standardController="Account"
+            extensions="EditableContactListExtension"
+            showHeader="true" 
+            sidebar="false"
+            title="Edit Contacts">
+	<apex:form >
+    <apex:pageMessages id="messages"/>
+    <apex:pageBlock title="Edit Contacts">
+      <apex:pageBlockButtons >
+        <apex:commandButton value="Cancel" action="{!cancel}" />
+        <apex:commandButton value="Save" action="{!save}"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockSection title="Account Information" collapsible="false">
+        <apex:pageBlockSectionItem >
+          <apex:outputText value="Account Name" />
+          <apex:outputLink value="/{!Account.Id}" target="_blank">{!Account.Name}</apex:outputLink>
+        </apex:pageBlockSectionItem>
+        <!-- Add additional parent fields here -->
+      </apex:pageBlockSection>
+      <apex:pageBlockSection id="childList" columns="1" title="Contacts" collapsible="false">
+        <!-- There is a trick to creating a counter when rendering rows in a
+              pageBlockTable. You have to define a variable to default to 0,
+              and then update that variable inside the table row. This is the
+              way that I can leverage smart row deletes -->
+        <apex:variable var="rowNum" value="{!ZERO}" />
+        <apex:outputLabel value="No Contacts currently exist. Click below to Add." rendered="{!NOT(hasChildren)}"/>
+        <apex:pageBlockTable value="{!children}" var="contact" rendered="{!hasChildren}">
+          <apex:column headerValue="First Name">
+            <apex:inputField value="{!contact.FirstName}" />
+          </apex:column>
+          <apex:column headerValue="Last Name">
+            <apex:inputField value="{!contact.LastName}" />
+          </apex:column>
+          <apex:column headerValue="Email">
+            <apex:inputField value="{!contact.Email}" />
+          </apex:column>
+          <!-- Add additional children metadata columns here -->
+          <apex:column headerValue=" ">
+            <!-- This is the second half of the trick to keep track
+                  of your row index for deletion. -->
+            <apex:variable var="rowNum" value="{!rowNum + 1}" />
+            <apex:commandLink value="Delete" action="{!removeFromList}" rerender="childList, messages" immediate="true">
+              <apex:param name="removeIndex" assignTo="{!removeIndex}" value="{!rowNum}" />
+            </apex:commandLink>
+          </apex:column>
+        </apex:pageBlockTable>
+        <!-- Want to specify immediate here and above so validation does
+              not occur when you are trying to add/remove rows. Only want
+              validation to occur when trying to save -->
+        <apex:commandButton value="Add Contact" action="{!addToList}" rerender="childList, messages" immediate="true" />
+      </apex:pageBlockSection>
+    </apex:pageBlock>
+  </apex:form>
+</apex:page>
