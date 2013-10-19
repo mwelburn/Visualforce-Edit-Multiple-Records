@@ -1,4 +1,4 @@
-Visualforce-Edit-Multiple-Records
+Visualforce Edit Multiple Records
 =================================
 
 This project contains a Visualforce template and example on how to create a an editable table of records, including adding and deleting. More specifically, the example involved is creating an editable screen to allow managing of Contact records against an Account.
