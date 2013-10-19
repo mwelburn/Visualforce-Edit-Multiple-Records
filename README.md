@@ -5,8 +5,12 @@ This project contains a Visualforce template and example on how to create a an e
 
 The package does not include a default Account layout that is already customized in an attempt to not override any existing Page Layout. The custom buttons need to be manually added to the Page Layout.
 
+![](http://mwelburn.github.com/Visualforce-Edit-Multiple-Records/images/View - Editing Records.png)
+
 Implementation Notes
 ----
+
+This code was implemented using by creating a base class with as many generic implementations of logic as possible. This was done by making all references to objects as [sObject](http://www.salesforce.com/us/developer/docs/apexcode/Content/langCon_apex_SObjects.htm), the base object type for all Salesforce objects. Each subsequent implementation of the child related list will require an implementation class tailored to the object type that is to be manipulated, as well as making customizations to the Visualforce page due to different fields being displayed.
 
 The code involved breaks down into three main files:
 
