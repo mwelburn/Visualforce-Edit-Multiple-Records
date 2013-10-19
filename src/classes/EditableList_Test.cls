@@ -1,3 +1,13 @@
+/*
+ * EditableList_Test.cls
+ *
+ * Copyright (c)2013, Michael Welburn.
+ * License: MIT
+ *
+ * Usage:
+ *   Test class for EditableList.cls
+ *
+ */
 @isTest
 private class EditableList_Test 
 {	

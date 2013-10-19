@@ -1,5 +1,20 @@
+/*
+ * EditableList.cls
+ *
+ * Copyright (c)2013, Michael Welburn.
+ * License: MIT
+ *
+ * Usage:
+ *   This is the definition class where generic implementations of
+ *   the table generating and modifications are implemented. This class
+ *   should not be modified in order to implement the Visualforce table,
+ *   all modifications should go in a controller extension that extends
+ *   this class.
+ *
+ */
 public abstract with sharing class EditableList 
 {
+  // Used to help instantiate a counter for the Visualforce table rows
   public final Integer ZERO {get; private set;}
 
   public sObject mysObject {get; protected set;}
@@ -34,6 +49,9 @@ public abstract with sharing class EditableList
     this.mysObject = (sObject)stdController.getRecord();
   }
 
+  /*
+   * Used to determine whether to display a message or the table
+   */
   public Boolean getHasChildren()
   {
     return !childList.isEmpty();
@@ -54,11 +72,18 @@ public abstract with sharing class EditableList
     return new Contact();
   }
 
+  /*
+   * Used to add a new row to the table
+   */
   public void addToList()
   {
     childList.add(initChildRecord());
   }
 
+  /*
+   * Used to remove a particular row from the table, referencing the
+   * removeIndex that is set on the Visualforce page
+   */
   public void removeFromList()
   {
     try
@@ -83,6 +108,9 @@ public abstract with sharing class EditableList
     }
   }
 
+  /*
+   * Defines the Page that is returned upon a successful save
+   */
   public virtual PageReference getSuccessURL()
   {
     PageReference pr;
@@ -102,6 +130,10 @@ public abstract with sharing class EditableList
     return pr;
   }
 
+  /*
+   * Persists the records saved in the table, or deletes existing records
+   * that the user deleted in the table.
+   */
   public PageReference save()
   {
     Savepoint sp = Database.setSavepoint();

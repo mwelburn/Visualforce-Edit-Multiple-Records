@@ -34,6 +34,6 @@ The code involved breaks down into three main files:
 Installation Link
 ----
   
-* [https://login.salesforce.com/packaging/installPackage.apexp?p0=04ti00000003vvQ](https://login.salesforce.com/packaging/installPackage.apexp?p0=04ti00000003vvQ)
+* [https://login.salesforce.com/packaging/installPackage.apexp?p0=04ti00000003whG](https://login.salesforce.com/packaging/installPackage.apexp?p0=04ti00000003whG)
 * **Note**: not guaranteed to be current
 * To install to a sandbox environment, change the subdomain from login to test

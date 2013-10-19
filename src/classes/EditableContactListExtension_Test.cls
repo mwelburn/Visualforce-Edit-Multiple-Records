@@ -1,3 +1,13 @@
+/*
+ * EditableContactListExtension_Test.cls
+ *
+ * Copyright (c)2013, Michael Welburn.
+ * License: MIT
+ *
+ * Usage:
+ *   Test class for EditableContactListExtension.cls
+ *
+ */
 @isTest
 private class EditableContactListExtension_Test 
 {

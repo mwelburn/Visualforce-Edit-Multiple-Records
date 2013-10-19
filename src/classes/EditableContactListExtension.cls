@@ -1,3 +1,20 @@
+/*
+ * EditableContactListExtension.cls
+ *
+ * Copyright (c)2013, Michael Welburn.
+ * License: MIT
+ *
+ * Usage:
+ *   This is the implementation class where Object specific references
+ *   need to be defined. Please see EditableList.cls for more information
+ *   on what each method is responsible for.
+ *
+ *   Required methods:
+ *     - EditableContactListExtension(ApexPages.StandardController)
+ *     - getChildren()
+ *     - initChildRecord()
+ *
+ */
 public with sharing class EditableContactListExtension extends EditableList
 {
   // Read the explanation in EditableContactListExtension(ApexPages.StandardController)
@@ -31,8 +48,8 @@ public with sharing class EditableContactListExtension extends EditableList
   }
 
   /*
-   * This method is necessary for the Visualforce page, in order to
-   * reference non-standard fields.
+   * This method is necessary for reference on the Visualforce page, 
+   * in order to reference non-standard fields.
    */
   public List<Contact> getChildren()
   {
