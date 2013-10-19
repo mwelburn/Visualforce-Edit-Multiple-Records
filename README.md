@@ -3,9 +3,11 @@ Visualforce-Edit-Multiple-Records
 
 This project contains a Visualforce template and example on how to create a an editable table of records, including adding and deleting. More specifically, the example involved is creating an editable screen to allow managing of Contact records against an Account.
 
+![](http://mwelburn.github.com/Visualforce-Edit-Multiple-Records/images/View - Editing Records.png)
+
 The package does not include a default Account layout that is already customized in an attempt to not override any existing Page Layout. The custom buttons need to be manually added to the Page Layout.
 
-![](http://mwelburn.github.com/Visualforce-Edit-Multiple-Records/images/View - Editing Records.png)
+For more information on setup, please click [here](http://mwelburn.github.io/Visualforce-Edit-Multiple-Records/)
 
 Implementation Notes
 ----
