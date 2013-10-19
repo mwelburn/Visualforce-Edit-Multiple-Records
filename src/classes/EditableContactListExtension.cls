@@ -36,7 +36,7 @@ public with sharing class EditableContactListExtension extends EditableList
    */
   public List<Contact> getChildren()
   {
-    return castList(childList);
+    return (List<Contact>)childList;
   }
 
   public override sObject initChildRecord()
@@ -46,10 +46,5 @@ public with sharing class EditableContactListExtension extends EditableList
     child.AccountId = mysObject.Id;
     
     return child;
-  }
-
-  public override List<sObject> castList(List<sObject> myList)
-  {
-    return (List<Contact>)myList;
   }
 }

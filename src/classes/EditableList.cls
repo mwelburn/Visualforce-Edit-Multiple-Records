@@ -14,7 +14,7 @@ public abstract with sharing class EditableList
     this.ZERO = 0;
     this.removeChildList = new List<sObject>();
 
-    // Implementing class should can initialize this to retrieve existing
+    // Implementing class can initialize this to retrieve existing
     // child records, OR this can be treated as a page where only new
     // items are added. If that is the case, then leave this as is.
     this.childList = new List<sObject>();
@@ -51,7 +51,7 @@ public abstract with sharing class EditableList
     // Cannot instantiate a generic sObject, must choose an actual object
     // Since this class needs to be overridden, this is a placeholder
     // implementation.
-    return new Account();
+    return new Contact();
   }
 
   public void addToList()
@@ -85,14 +85,19 @@ public abstract with sharing class EditableList
 
   public virtual PageReference getSuccessURL()
   {
+    PageReference pr;
+
     String retURL = ApexPages.currentPage().getParameters().get('retURL');
     // If retURL doesn't exist, simply return to parent record
     if (String.isBlank(retURL))
     {
-      retURL = '/' + mysObject.Id;
+      pr = new ApexPages.StandardController(mysObject).view();
+    }
+    else
+    {
+      pr = new PageReference(retURL);
     }
     
-    PageReference pr = new PageReference(retURL);
     pr.setRedirect(true);
     return pr;
   }
@@ -103,8 +108,25 @@ public abstract with sharing class EditableList
             
     try
     {
-      upsert castList(childList);
-      delete castList(removeChildList);
+      // DML Upsert isn't supported for List<sObject>, so we need to do
+      // explicit separate insert and update
+      List<sObject> insertChildList = new List<sObject>();
+      List<sObject> updateChildList = new List<sObject>();
+      for (sObject sobj : childList)
+      {
+        if (sobj.Id == null)
+        {
+          insertChildList.add(sobj);
+        }
+        else
+        {
+          updateChildList.add(sobj);
+        }
+      }
+
+      insert insertChildList;
+      update updateChildList;
+      delete removeChildList;
       
       return getSuccessURL();
     }
@@ -117,13 +139,4 @@ public abstract with sharing class EditableList
       return null;
     } 
   } 
-
-  /*
-   * This is a hook that allows you to cast your List<sObject> to another
-   * object type. Override it in the implementation class.
-   */
-  public virtual List<sObject> castList(List<sObject> myList)
-  {
-    return myList;
-  }
 }
